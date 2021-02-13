@@ -1,0 +1,58 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- <ul>
+      <li><a href="#/a">/a</a></li>
+      <li><a href="#/b">/b</a></li>
+    </ul> -->
+    <script>
+      // 监听hash的变化
+      let globalHistory = window.history;
+      (function (history) {
+        let oldPushState = history.pushState;
+        history.pushState = function () {
+          let result = oldPushState.apply(history, arguments);
+          if (typeof window.onpushstate) {
+            window.onpushstate(
+              new CustomEvent("pushstate", { detail: { pathname, state } })
+            );
+          }
+          return result;
+        };
+      })(globalHistory);
+      let oldHistorylen = globalHistory.length;
+      setTimeout(() => {
+        globalHistory.pushState({ page: 1 }, { title: "page1" }, "/page1");
+        console.log(globalHistory.length - oldHistorylen);
+      }, 1000);
+      setTimeout(() => {
+        globalHistory.pushState({ page: 2 }, { title: "page2" }, "/page2");
+        console.log(globalHistory.length - oldHistorylen);
+      }, 2000);
+      setTimeout(() => {
+        globalHistory.pushState({ page: 3 }, { title: "page3" }, "/page3");
+        console.log(globalHistory.length - oldHistorylen);
+      }, 3000);
+      setTimeout(() => {
+        // globalHistory.pushState({ page: 3 }, { title: "page3" }, "/page3");
+        globalHistory.back();
+        console.log(globalHistory.length - oldHistorylen);
+      }, 4000);
+      setTimeout(() => {
+        globalHistory.pushState({ page: 4 }, { title: "page4" }, "/page4");
+
+        console.log(globalHistory, globalHistory.length - oldHistorylen);
+      }, 5000);
+      setTimeout(() => {
+        globalHistory.go(1);
+
+        console.log(globalHistory, globalHistory.length - oldHistorylen);
+      }, 6000);
+    </script>
+  </body>
+</html>
