@@ -28,30 +28,22 @@
       let oldHistorylen = globalHistory.length;
       setTimeout(() => {
         globalHistory.pushState({ page: 1 }, { title: "page1" }, "/page1");
-        console.log(globalHistory.length - oldHistorylen);
       }, 1000);
       setTimeout(() => {
         globalHistory.pushState({ page: 2 }, { title: "page2" }, "/page2");
-        console.log(globalHistory.length - oldHistorylen);
       }, 2000);
       setTimeout(() => {
         globalHistory.pushState({ page: 3 }, { title: "page3" }, "/page3");
-        console.log(globalHistory.length - oldHistorylen);
       }, 3000);
       setTimeout(() => {
         // globalHistory.pushState({ page: 3 }, { title: "page3" }, "/page3");
         globalHistory.back();
-        console.log(globalHistory.length - oldHistorylen);
       }, 4000);
       setTimeout(() => {
         globalHistory.pushState({ page: 4 }, { title: "page4" }, "/page4");
-
-        console.log(globalHistory, globalHistory.length - oldHistorylen);
       }, 5000);
       setTimeout(() => {
         globalHistory.go(1);
-
-        console.log(globalHistory, globalHistory.length - oldHistorylen);
       }, 6000);
     </script>
   </body>

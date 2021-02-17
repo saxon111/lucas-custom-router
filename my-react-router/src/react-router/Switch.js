@@ -12,11 +12,11 @@ class Switch extends React.Component {
         match = child.props.path
           ? matchPath(location.pathname, child.props)
           : contextMatch;
-          console.log('>>>>>>child.props.path',match)
+ 
         element = child;
       }
     });
-    console.log('swtch',match);
+    
     return match ? React.cloneElement(element, {computedMatch:match}) : null;
   }
 }

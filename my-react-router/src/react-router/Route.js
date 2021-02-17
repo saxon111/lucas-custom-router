@@ -14,9 +14,15 @@ class Route extends React.Component {
 
   render() {
     const { history, location } = this.context;
-    console.log('>>>>>>>>context',this.context)
-    const { component: RouteComponent, computedMatch } = this.props;
-    console.log(">>>>>>>", location);
+    console.log(">>>>>>>>>>>ccccc", this.context);
+
+    const {
+      component: RouteComponent,
+      computedMatch,
+      render,
+      children,
+    } = this.props;
+
     const match = computedMatch
       ? computedMatch
       : matchPath(location.pathname, this.props);
@@ -24,8 +30,19 @@ class Route extends React.Component {
     let renderElement = null;
     const routeProps = { history, location, match };
     if (match) {
+      this.context.match = match;
       routeProps.match = match;
-      renderElement = <RouteComponent {...routeProps} />;
+      if (RouteComponent) {
+        renderElement = <RouteComponent {...routeProps} />;
+      } else if (render) {
+        renderElement = render(routeProps);
+      } else if (children) {
+        renderElement = children(routeProps);
+      }
+    } else {
+      if (children) {
+        renderElement = children(routeProps);
+      }
     }
     return renderElement;
   }

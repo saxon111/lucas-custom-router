@@ -1,11 +1,10 @@
 function createBrowserHistory() {
-  console.log(">>>>>>create");
   const globalHistory = window.history;
 
   const listeners = [];
   let state;
   let action;
-
+  let message;
   function go(n) {
     globalHistory.go(n);
   }
@@ -21,6 +20,12 @@ function createBrowserHistory() {
     listeners.forEach((listener) => listener(history.location));
   }
 
+  function block(newMessage) {
+    message = newMessage;
+    return () => {
+      message = null;
+    };
+  }
   function push(pathname, nextState) {
     action = "PUSH";
     // historyStack[++historyIndex] = history.location
@@ -30,7 +35,14 @@ function createBrowserHistory() {
     } else {
       state = nextState;
     }
-    console.log(">>>>>>>>", pathname);
+    if (message) {
+      let showMessgae = message({ pathname });
+      let allow = window.confirm(showMessgae);
+      if (!allow) {
+        return;
+      }
+    }
+
     globalHistory.pushState(state, null, pathname);
     let location = { pathname, state };
     notify({ location, state });
@@ -45,7 +57,7 @@ function createBrowserHistory() {
 
   // 当调用pushState时，会执行这个回调函数，不是自带的，需要自己实现
   window.onpushstate = (event) => {
-    console.log(event);
+  
   };
 
   // 浏览器自带，回退或前进时会触发
@@ -73,6 +85,7 @@ function createBrowserHistory() {
     goBack,
     goForward,
     listen,
+    block
   };
   return history;
 }

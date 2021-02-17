@@ -10,6 +10,7 @@ class LifeCycle extends React.Component {
   }
 
   componentWillUnmount() {
+  
     if (this.props.onUnmount) this.props.onUnmount.call(this, this);
   }
   render() {

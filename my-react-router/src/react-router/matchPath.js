@@ -3,7 +3,7 @@ import { pathToRegexp } from "path-to-regexp";
 function compilePath(path, options) {
   const keys = []; // 处理路径参数
   const regexp = pathToRegexp(path, keys, options);
-  console.log(regexp)
+ 
   return { keys, regexp };
 }
 

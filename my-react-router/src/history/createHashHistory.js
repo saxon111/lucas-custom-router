@@ -19,7 +19,7 @@ function createHashHistory() {
   }
 
   const hashChange = () => {
-    console.log("hashchange", window.location.hash, action);
+
     let pathname = window.location.hash.slice(1);
     Object.assign(history, { action, location: { pathname, state } });
     if (!action || action === "PUSH") {
@@ -44,7 +44,6 @@ function createHashHistory() {
       state = nextState;
     }
 
-    console.log("pathname", pathname);
     window.location.hash = pathname;
   }
 
@@ -59,15 +58,13 @@ function createHashHistory() {
     } else {
       state = nextState;
     }
-
-    console.log("pathname", pathname);
     window.location.hash = pathname;
   }
 
   function go(n) {
     action = "POP";
     historyIndex += n;
-    console.log(historyStack, historyIndex);
+
     const nextLocation = historyStack[historyIndex];
     if (nextLocation) {
       state = nextLocation.state;
@@ -79,7 +76,7 @@ function createHashHistory() {
     // window.history.go(n)
   }
   function goBack() {
-    console.log("here");
+
     go(-1);
   }
   function goForward() {
@@ -114,7 +111,7 @@ function createHashHistory() {
 //   if (!action) {
 //     historyStack[++historyIndex] = history.location;
 //   }
-  console.log("123", window.location.hash, historyStack);
+ 
   return history;
 }
 
